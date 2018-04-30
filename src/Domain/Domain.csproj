@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Jto</Authors>
+    <PackageLicenseUrl>https://github.com/jtourvieille/DomainDrivenDesign</PackageLicenseUrl>
+    <PackageTags>Domain DDD Design Pico ValueObject Value Entity Aggregate AggregateRoot CQRS Event</PackageTags>
+    <PackageProjectUrl>https://github.com/jtourvieille/DomainDrivenDesign</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jtourvieille/DomainDrivenDesign</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
