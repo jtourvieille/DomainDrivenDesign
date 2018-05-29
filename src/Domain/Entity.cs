@@ -8,7 +8,7 @@
         /// <summary>
         /// The unique identifier
         /// </summary>
-        public virtual long Id { get; protected set; }
+        public long Id { get; protected set; }
 
         protected bool Equals(Entity other)
         {

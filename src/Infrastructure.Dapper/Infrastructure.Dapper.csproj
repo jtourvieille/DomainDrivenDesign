@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Jto</Authors>
+    <Company>Jto</Company>
+    <PackageLicenseUrl>https://github.com/jtourvieille/DomainDrivenDesign</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/jtourvieille/DomainDrivenDesign</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jtourvieille/DomainDrivenDesign</RepositoryUrl>
+    <PackageTags>Domain DDD Design Pico ValueObject Value Entity Aggregate AggregateRoot CQRS Event dapper repository</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
