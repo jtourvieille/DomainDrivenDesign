@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using Dapper;
 using Domain.Repository;
 using Infrastructure.UnitOfWork;
@@ -8,63 +7,41 @@ namespace Infrastructure.Dapper.Repository
 {
     public abstract class DapperRepository<T> : IRepository<T>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        protected readonly IUnitOfWork UnitOfWork;
 
         public DapperRepository(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
+            UnitOfWork = unitOfWork;
         }
 
-        protected abstract string GetAllSql();
-        protected abstract string GetByIdSql(long id);
-        protected abstract string SaveSql(T aggregateRoot);
+        protected abstract ParametrizedQuery GetAllCommand();
+        protected abstract ParametrizedQuery GetByIdCommand(long id);
+        protected abstract ParametrizedQuery SaveCommand(T aggregateRoot);
 
         public IEnumerable<T> GetAll()
         {
-            using (var transaction = _unitOfWork.BeginTransaction())
+            using (var transaction = UnitOfWork.BeginTransaction())
             {
-                return transaction.Connection.Query<T>(GetAllSql());
-            }
-        }
-
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            using (var transaction = _unitOfWork.BeginTransaction())
-            {
-                return await transaction.Connection.QueryAsync<T>(GetAllSql());
+                var command = GetAllCommand();
+                return transaction.Connection.Query<T>(command.Sql, (object)command.Parameter);
             }
         }
 
         public T GetById(long id)
         {
-            using (var transaction = _unitOfWork.BeginTransaction())
+            using (var transaction = UnitOfWork.BeginTransaction())
             {
-                return transaction.Connection.QuerySingle<T>(GetByIdSql(id));
-            }
-        }
-
-        public async Task<T> GetByIdAsync(long id)
-        {
-            using (var transaction = _unitOfWork.BeginTransaction())
-            {
-                return await transaction.Connection.QuerySingleAsync<T>(GetByIdSql(id));
+                var command = GetByIdCommand(id);
+                return transaction.Connection.QuerySingle<T>(command.Sql, (object)command.Parameter);
             }
         }
 
         public void Save(T aggregateRoot)
         {
-            using (var transaction = _unitOfWork.BeginTransaction())
+            using (var transaction = UnitOfWork.BeginTransaction())
             {
-                transaction.Connection.Execute(SaveSql(aggregateRoot));
-                transaction.Commit();
-            }
-        }
-
-        public async Task SaveAsync(T aggregateRoot)
-        {
-            using (var transaction = _unitOfWork.BeginTransaction())
-            {
-                await transaction.Connection.ExecuteAsync(SaveSql(aggregateRoot));
+                var command = SaveCommand(aggregateRoot);
+                transaction.Connection.Execute(command.Sql, (object)command.Parameter, transaction: transaction);
                 transaction.Commit();
             }
         }

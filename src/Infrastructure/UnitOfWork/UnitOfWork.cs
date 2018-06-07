@@ -24,6 +24,8 @@ namespace Infrastructure.UnitOfWork
             return _transaction;
         }
 
+        public IDbConnection Connection { get { return _connection; } }
+
         public void Dispose()
         {
             Dispose(true);

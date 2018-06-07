@@ -3,11 +3,12 @@ using Infrastructure.UnitOfWork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Dapper.Tests.Repository
 {
     [TestClass]
-    public class DapperRepositoryShould
+    public class DapperAsyncRepositoryShould
     {
         public class Product
         {
@@ -16,10 +17,10 @@ namespace Infrastructure.Dapper.Tests.Repository
             public string Description { get; set; }
         }
 
-        public class ProductRepository : DapperRepository<Product>
+        public class ProductAsyncRepository : DapperAsyncRepository<Product>
         {
-            public ProductRepository(IUnitOfWork unitOfWork)
-                : base (unitOfWork)
+            public ProductAsyncRepository(IUnitOfWork unitOfWork)
+                : base(unitOfWork)
             {
             }
 
@@ -44,7 +45,7 @@ namespace Infrastructure.Dapper.Tests.Repository
         }
 
         [TestMethod]
-        public void RetrieveProduct_When_ClaimingProduct()
+        public async Task RetrieveProduct_When_ClaimingProduct()
         {
             // Arrange
             var products = new List<Product>
@@ -58,10 +59,10 @@ namespace Infrastructure.Dapper.Tests.Repository
             using (var connection = db.OpenConnection())
             {
                 var unitOfWork = new UnitOfWork.UnitOfWork(connection);
-                ProductRepository productRepository = new ProductRepository(unitOfWork);
+                ProductAsyncRepository productAsyncRepository = new ProductAsyncRepository(unitOfWork);
 
                 // Act
-                var result = productRepository.GetById(1);
+                var result = await productAsyncRepository.GetByIdAsync(1);
 
                 // Assert
                 Assert.IsNotNull(result);
@@ -72,7 +73,7 @@ namespace Infrastructure.Dapper.Tests.Repository
         }
 
         [TestMethod]
-        public void SaveProduct_When_NewProductInserted()
+        public async Task SaveProduct_When_NewProductInserted()
         {
             // Arrange
             var products = new List<Product>
@@ -86,11 +87,11 @@ namespace Infrastructure.Dapper.Tests.Repository
             using (var connection = db.OpenConnection())
             {
                 var unitOfWork = new UnitOfWork.UnitOfWork(connection);
-                ProductRepository productRepository = new ProductRepository(unitOfWork);
-                var product = new Product { Id = 3, Name="Product3", Description = "This is the third product" };
+                ProductAsyncRepository productAsyncRepository = new ProductAsyncRepository(unitOfWork);
+                var product = new Product { Id = 3, Name = "Product3", Description = "This is the third product" };
 
                 // Act
-                productRepository.Save(product);
+                await productAsyncRepository.SaveAsync(product);
 
                 // Assert
                 var allProducts = db.GetAll<Product>();
@@ -106,7 +107,7 @@ namespace Infrastructure.Dapper.Tests.Repository
         }
 
         [TestMethod]
-        public void ListAllProducts_When_ClaimingAllProducts()
+        public async Task ListAllProducts_When_ClaimingAllProducts()
         {
             // Arrange
             var products = new List<Product>
@@ -120,10 +121,10 @@ namespace Infrastructure.Dapper.Tests.Repository
             using (var connection = db.OpenConnection())
             {
                 var unitOfWork = new UnitOfWork.UnitOfWork(connection);
-                ProductRepository productRepository = new ProductRepository(unitOfWork);
-                
+                ProductAsyncRepository productAsyncRepository = new ProductAsyncRepository(unitOfWork);
+
                 // Act
-                var allProducts = productRepository.GetAll();
+                var allProducts = await productAsyncRepository.GetAllAsync();
 
                 // Assert
                 Assert.AreEqual(2, allProducts.Count());
