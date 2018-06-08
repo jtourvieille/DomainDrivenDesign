@@ -7,6 +7,8 @@
     <PackageTags>Domain DDD Design Pico ValueObject Value Entity Aggregate AggregateRoot CQRS Event</PackageTags>
     <PackageProjectUrl>https://github.com/jtourvieille/DomainDrivenDesign</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jtourvieille/DomainDrivenDesign</RepositoryUrl>
+    <Description>Contains a bunch of interfaces, abstract classes, etc... to easily deal with doman driven architectures</Description>
+    <PackageId>Essentials.Domain</PackageId>
   </PropertyGroup>
 
 </Project>

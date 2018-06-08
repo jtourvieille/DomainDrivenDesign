@@ -8,6 +8,8 @@
     <PackageProjectUrl>https://github.com/jtourvieille/DomainDrivenDesign</PackageProjectUrl>
     <RepositoryUrl>https://github.com/jtourvieille/DomainDrivenDesign</RepositoryUrl>
     <PackageTags>Domain DDD Design Pico ValueObject Value Entity Aggregate AggregateRoot CQRS Event dapper repository</PackageTags>
+    <Description>Contains Dapper specific implementation for infrastructure layer</Description>
+    <PackageId>Essentials.Infrastructure.Dapper</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

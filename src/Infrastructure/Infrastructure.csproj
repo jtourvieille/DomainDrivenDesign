@@ -8,6 +8,8 @@
     <RepositoryUrl>https://github.com/jtourvieille/DomainDrivenDesign</RepositoryUrl>
     <PackageTags>Domain DDD Design Pico ValueObject Value Entity Aggregate AggregateRoot CQRS Event unitofwork uow</PackageTags>
     <PackageProjectUrl>https://github.com/jtourvieille/DomainDrivenDesign</PackageProjectUrl>
+    <Description>Contains a bunch of interfaces, abstract classes, etc... to easily deal with DDD infrastructure layer</Description>
+    <PackageId>Essentials.Infrastructure</PackageId>
   </PropertyGroup>
 
 </Project>
