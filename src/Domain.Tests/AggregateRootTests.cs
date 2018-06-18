@@ -5,7 +5,7 @@ using System;
 namespace Domain.Tests
 {
     [TestClass]
-    public class AggregareRootTests
+    public class AggregateRootTests
     {
         private class SomethingHappenedEvent : IDomainEvent
         {
