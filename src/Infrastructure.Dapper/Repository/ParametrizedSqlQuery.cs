@@ -1,8 +1,8 @@
 ﻿namespace Infrastructure.Dapper.Repository
 {
-    public class ParametrizedQuery
+    public class ParametrizedSqlQuery
     {
-        public ParametrizedQuery(string sql, dynamic parameter = null)
+        public ParametrizedSqlQuery(string sql, dynamic parameter = null)
         {
             Sql = sql;
             Parameter = parameter;

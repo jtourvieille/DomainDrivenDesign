@@ -23,51 +23,18 @@ namespace Infrastructure.Dapper.Tests.Repository
             {
             }
 
-            protected override ParametrizedQuery GetAllCommand()
+            protected override ParametrizedSqlQuery SaveCommand(Product aggregateRoot)
             {
-                return new ParametrizedQuery("SELECT * FROM Product");
-            }
-
-            protected override ParametrizedQuery GetByIdCommand(long id)
-            {
-                return new ParametrizedQuery(
-                    "SELECT * FROM Product WHERE Id = @Id",
-                    new { Id = id });
-            }
-
-            protected override ParametrizedQuery SaveCommand(Product aggregateRoot)
-            {
-                return new ParametrizedQuery(
+                return new ParametrizedSqlQuery(
                     "INSERT INTO Product(id, Name, Description) VALUES (@Id, @Name, @Description)",
                     new { aggregateRoot.Id, aggregateRoot.Name, aggregateRoot.Description });
             }
-        }
 
-        [TestMethod]
-        public void RetrieveProduct_When_ClaimingProduct()
-        {
-            // Arrange
-            var products = new List<Product>
+            protected override ParametrizedSqlQuery UpdateCommand(Product aggregateRoot)
             {
-                new Product { Id=1,Name="Product1", Description="This is the first product" },
-                new Product { Id=2,Name="Product2", Description="This is the second product" }
-            };
-            var db = new InMemoryDatabase();
-            db.Insert(products);
-
-            using (var connection = db.OpenConnection())
-            {
-                var unitOfWork = new UnitOfWork.UnitOfWork(connection);
-                ProductRepository productRepository = new ProductRepository(unitOfWork);
-
-                // Act
-                var result = productRepository.GetById(1);
-
-                // Assert
-                Assert.IsNotNull(result);
-                Assert.AreEqual(1, result.Id);
-                Assert.AreEqual("Product1", result.Name);
-                Assert.AreEqual("This is the first product", result.Description);
+                return new ParametrizedSqlQuery(
+                    "UPDATE Product SET Name = @Name, Description = @Description WHERE Id = @Id ",
+                    new { aggregateRoot.Id, aggregateRoot.Name, aggregateRoot.Description });
             }
         }
 
@@ -106,7 +73,7 @@ namespace Infrastructure.Dapper.Tests.Repository
         }
 
         [TestMethod]
-        public void ListAllProducts_When_ClaimingAllProducts()
+        public void UpdateProduct_When_ProductIsModified()
         {
             // Arrange
             var products = new List<Product>
@@ -121,12 +88,21 @@ namespace Infrastructure.Dapper.Tests.Repository
             {
                 var unitOfWork = new UnitOfWork.UnitOfWork(connection);
                 ProductRepository productRepository = new ProductRepository(unitOfWork);
-                
+                var product = new Product { Id = 1, Name = "Product1 Updated", Description = "This is the first updated product" };
+
                 // Act
-                var allProducts = productRepository.GetAll();
+                productRepository.Update(product);
 
                 // Assert
+                var allProducts = db.GetAll<Product>();
                 Assert.AreEqual(2, allProducts.Count());
+
+                var firstProduct = allProducts.ToList()[0];
+                Assert.IsNotNull(firstProduct);
+
+                Assert.AreEqual(1, firstProduct.Id);
+                Assert.AreEqual("Product1 Updated", firstProduct.Name);
+                Assert.AreEqual("This is the first updated product", firstProduct.Description);
             }
         }
     }
