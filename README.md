@@ -3,7 +3,7 @@
 ![Build CI Status](https://jto.visualstudio.com/_apis/public/build/definitions/ead6e1b7-db14-4396-8115-d903ce93329e/13/badge)
 
 This is a set of libraries helping in the implementation of DDD.
-We often need the same classes/interfaces when dealing with DDD: **Value**, **Entity**, **AggregateRoot** ... are always quoted.
+We often need the same classes/interfaces when dealing with DDD: **ValueObject**, **Entity**, **AggregateRoot** ... are always quoted.
 
 ## Essentials.Domain
 
@@ -28,18 +28,17 @@ private class MyEntity : Entity
 ```
 private class MyValueObject : ValueObject<MyValueObject>
 {
-	// Here are all properties of the Value Object
+    // Here are all properties of the Value Object
     public string MyStringProperty { get; set; }
     public int MyIntProperty { get; set; }
     public double MyDoubleProperty { get; set; }
 	
-	protected override IEnumerable<object> GetEqualityComponents()
-	{
-		// Here are all properties taking part of the equality comparison
-		yield return MyIntProperty;
-		yield return MyStringProperty;
-	}
-	
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+    	// Here are all properties taking part of the equality comparison
+    	yield return MyIntProperty;
+    	yield return MyStringProperty;
+    }
 }
 ```
 			
@@ -63,9 +62,9 @@ This includes a **unit of work** implementation. Just use it like this
 ```
 using (var transaction = _unitOfWork.BeginTransaction())
 {
-	var dbCommand = transaction.Connection.CreateCommand();
-    dbCommand.CommandText = "SQL";
-    var result = dbCommand.ExecuteScalar();
+    var dbCommand = transaction.Connection.CreateCommand();
+    dbCommand.CommandText = "SQL goes here";
+    var result = dbCommand.ExecuteScalar(); //Or ExecuteReader ...
 }
 ```
 
