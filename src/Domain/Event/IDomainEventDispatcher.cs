@@ -4,6 +4,6 @@ namespace Domain.Event
 {
     public interface IDomainEventDispatcher
     {
-        Task DispatchDomainEventsAsync(AggregateRoot aggregateRoot);
+        Task DispatchDomainEventsAsync<T>(AggregateRoot<T> aggregateRoot) where T : struct;
     }
 }

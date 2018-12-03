@@ -21,9 +21,17 @@ namespace Infrastructure.Dapper.Repository
         {
             using (var transaction = UnitOfWork.BeginTransaction())
             {
-                var command = SaveCommand(aggregateRoot);
-                transaction.Connection.Execute(command.Sql, (object)command.Parameter, transaction: transaction);
-                transaction.Commit();
+                try
+                {
+                    var command = SaveCommand(aggregateRoot);
+                    transaction.Connection.Execute(command.Sql, (object)command.Parameter, transaction: transaction);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
             }
         }
 
@@ -31,9 +39,17 @@ namespace Infrastructure.Dapper.Repository
         {
             using (var transaction = UnitOfWork.BeginTransaction())
             {
-                var command = UpdateCommand(aggregateRoot);
-                transaction.Connection.Execute(command.Sql, (object)command.Parameter, transaction: transaction);
-                transaction.Commit();
+                try
+                {
+                    var command = UpdateCommand(aggregateRoot);
+                    transaction.Connection.Execute(command.Sql, (object)command.Parameter, transaction: transaction);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
             }
         }
     }

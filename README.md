@@ -14,12 +14,20 @@ We often need the same classes/interfaces when dealing with DDD: **ValueObject**
 #### Defining your Entities
 
 ```
-private class MyEntity : Entity
+private class MyLongEntity : Entity<long>
 {
-    public MyEntity(long id)
-    {
-        this.Id = id;
-    }
+	public MyLongEntity(long id)
+	{
+		this.Id = id;
+	}
+}
+
+private class MyGuidEntity : Entity<Guid>
+{
+	public MyGuidEntity(Guid id)
+	{
+		this.Id = id;
+	}
 }
 ```
 		
@@ -46,7 +54,7 @@ private class MyValueObject : ValueObject<MyValueObject>
 
 This is as simple as
 ```
-private class MyAggregate : AggregateRoot
+private class MyAggregate : AggregateRoot<Guid>
 {
 }
 ```

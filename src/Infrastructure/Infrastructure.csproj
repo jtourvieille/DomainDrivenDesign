@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/jtourvieille/DomainDrivenDesign</PackageProjectUrl>
     <Description>Contains a bunch of interfaces, abstract classes, etc... to easily deal with DDD infrastructure layer</Description>
     <PackageId>Essentials.Infrastructure</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

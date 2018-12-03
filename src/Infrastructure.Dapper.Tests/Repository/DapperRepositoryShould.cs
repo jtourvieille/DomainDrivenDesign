@@ -3,15 +3,15 @@ using Infrastructure.UnitOfWork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
+using Domain;
 
 namespace Infrastructure.Dapper.Tests.Repository
 {
     [TestClass]
     public class DapperRepositoryShould
     {
-        public class Product
+        public class Product : AggregateRoot<int>
         {
-            public int Id { get; set; }
             public string Name { get; set; }
             public string Description { get; set; }
         }
@@ -44,8 +44,8 @@ namespace Infrastructure.Dapper.Tests.Repository
             // Arrange
             var products = new List<Product>
             {
-                new Product { Id=1, Name = "Product1", Description = "This is the first product" },
-                new Product { Id=2, Name = "Product2", Description = "This is the second product" }
+                new Product { Id = 1, Name = "Product1", Description = "This is the first product" },
+                new Product { Id = 2, Name = "Product2", Description = "This is the second product" }
             };
             var db = new InMemoryDatabase();
             db.Insert(products);
@@ -78,8 +78,8 @@ namespace Infrastructure.Dapper.Tests.Repository
             // Arrange
             var products = new List<Product>
             {
-                new Product { Id=1, Name = "Product1", Description = "This is the first product" },
-                new Product { Id=2, Name = "Product2", Description = "This is the second product" }
+                new Product { Id = 1, Name = "Product1", Description = "This is the first product" },
+                new Product { Id = 2, Name = "Product2", Description = "This is the second product" }
             };
             var db = new InMemoryDatabase();
             db.Insert(products);

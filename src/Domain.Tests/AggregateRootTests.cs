@@ -16,7 +16,7 @@ namespace Domain.Tests
 
             public Guid Guid { get; }
         }
-        private class MyAggregate : AggregateRoot
+        private class MyAggregate : AggregateRoot<Guid>
         {
             public void DoSomething(Guid guid)
             {

@@ -3,16 +3,17 @@
     /// <summary>
     /// Entity definition.
     /// </summary>
-    public abstract class Entity
+    public abstract class Entity<T>
+        where T : struct
     {
         /// <summary>
-        /// The unique identifier
+        /// The unique identifier of the entity.
         /// </summary>
-        public long Id { get; protected set; }
+        public T Id { get; set; } = default(T);
 
-        protected bool Equals(Entity other)
+        protected bool Equals(Entity<T> other)
         {
-            return Id == other.Id;
+            return Id.Equals(other.Id);
         }
 
         public override bool Equals(object obj)
@@ -20,7 +21,7 @@
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((Entity)obj);
+            return Equals((Entity<T>)obj);
         }
 
         public override int GetHashCode()
@@ -28,12 +29,12 @@
             return Id.GetHashCode();
         }
 
-        public static bool operator ==(Entity left, Entity right)
+        public static bool operator ==(Entity<T> left, Entity<T> right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity left, Entity right)
+        public static bool operator !=(Entity<T> left, Entity<T> right)
         {
             return !Equals(left, right);
         }

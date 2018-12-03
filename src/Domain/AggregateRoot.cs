@@ -6,7 +6,7 @@ namespace Domain
     /// <summary>
     /// AggregateRoot definition
     /// </summary>
-    public abstract class AggregateRoot : Entity
+    public abstract class AggregateRoot<T> : Entity<T> where T : struct
     {
         private readonly List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
         public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;

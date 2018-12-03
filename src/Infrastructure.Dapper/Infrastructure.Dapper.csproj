@@ -10,7 +10,7 @@
     <PackageTags>Domain DDD Design Pico ValueObject Value Entity Aggregate AggregateRoot CQRS Event dapper repository</PackageTags>
     <Description>Contains Dapper specific implementation for infrastructure layer</Description>
     <PackageId>Essentials.Infrastructure.Dapper</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
