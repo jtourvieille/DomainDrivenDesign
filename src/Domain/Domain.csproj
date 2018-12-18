@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/jtourvieille/DomainDrivenDesign</RepositoryUrl>
     <Description>Contains a bunch of interfaces, abstract classes, etc... to easily deal with doman driven architectures</Description>
     <PackageId>Essentials.Domain</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
 </Project>
