@@ -106,3 +106,42 @@ public class ProductAsyncRepository : DapperAsyncRepository<Product>
 	}
 }
 ```
+
+## Essentials.Application
+
+![Build Publish Status](https://jto.visualstudio.com/DomainDrivenDesign/_apis/build/status/DomainDrivenDesign-Application-Publish)
+
+This library holds a provider to store a map from domain event type to an enumeration of associated event type handlers.
+You then have to instanciante them and call the **HandleAsync** method.
+
+You First have to register all handlers. To do this, simply call the **Init** method of the **IDomainEventHandlersProvider** implementation.
+You can do this operation once for all (generally at application startup).
+
+This sample shows how to do it with Unity container, into the Global.asax file.
+
+```
+protected void Application_Start()
+{
+	UnityConfig.Container.Resolve<IDomainEventHandlersProvider>().Init(typeof(WhateverEventHandler).Assembly);
+}
+```
+
+Every EventHandlers of this assembly will then be registered.
+
+Finally, at runtime, you can create an instance of those types to call the **HandleAsync** method.
+
+var handlersTypes = this.domainEventHandlersProvider.GetHandlersTypes(aggregateRootDomainEvent.GetType());
+
+```
+WhateverEvent whateverEvent = new WhateverEvent();
+var handlersTypes = this.domainEventHandlersProvider.GetHandlersTypes(whateverEvent.GetType());
+
+if (handlersTypes != null)
+{
+	foreach (var handlerType in handlersTypes)
+	{
+		dynamic handler = Activator.CreateInstance(handlerType);
+		await handler.HandleAsync((dynamic) whateverEvent);
+	}
+}
+```
