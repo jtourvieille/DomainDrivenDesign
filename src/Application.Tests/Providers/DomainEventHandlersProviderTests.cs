@@ -80,6 +80,63 @@ namespace Application.Tests.Providers
             var dummyHandlerType = dummyHandlersTypes.ElementAt(0);
             Assert.AreEqual(typeof(DummyDomainEventHandler).FullName, dummyHandlerType.FullName);
         }
+
+        [TestMethod]
+        public void Should_ThrowException_When_TypeIsNull()
+        {
+            // Arrange
+            var domainEventHandlersProvider = new DomainEventHandlersProvider();
+
+            // Act
+            domainEventHandlersProvider.Init(new List<Assembly> { typeof(WhateverDomainEventHandler).Assembly });
+
+            // Assert
+            try
+            {
+                domainEventHandlersProvider.GetHandlersTypes(null);
+                Assert.Fail();
+            }
+            catch (ArgumentNullException)
+            {
+            }
+        }
+
+        [TestMethod]
+        public void Should_ThrowException_When_TypeIsNotIDomainEvent()
+        {
+            // Arrange
+            var domainEventHandlersProvider = new DomainEventHandlersProvider();
+
+            // Act
+            domainEventHandlersProvider.Init(new List<Assembly> { typeof(WhateverDomainEventHandler).Assembly });
+
+            // Assert
+            try
+            {
+                domainEventHandlersProvider.GetHandlersTypes(typeof(string));
+                Assert.Fail();
+            }
+            catch (ArgumentException)
+            {
+            }
+        }
+
+        [TestMethod]
+        public void Should_NotThrowException_When_TypeIsIDomainEvent()
+        {
+            // Arrange
+            var domainEventHandlersProvider = new DomainEventHandlersProvider();
+
+            // Act
+            domainEventHandlersProvider.Init(new List<Assembly> { typeof(WhateverDomainEventHandler).Assembly });
+
+            // Assert
+            var handlersTypes = domainEventHandlersProvider.GetHandlersTypes<WhateverDomainEvent>();
+            Assert.IsNotNull(handlersTypes);
+            Assert.AreEqual(1, handlersTypes.Count());
+            var handlerType = handlersTypes.ElementAt(0);
+            Assert.AreEqual(typeof(WhateverDomainEventHandler).FullName, handlerType.FullName);
+        }
     }
 
     public class WhateverDomainEventHandler : IDomainEventHandler<WhateverDomainEvent>

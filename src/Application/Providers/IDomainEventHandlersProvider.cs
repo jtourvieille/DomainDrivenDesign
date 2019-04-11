@@ -22,5 +22,12 @@ namespace Application.Providers
         /// <typeparam name="T">The input <see cref="Type"/>.</typeparam>
         /// <returns>An enumeration of <see cref="Type"/> that are able to handle an event of the given input <see cref="Type"/>.</returns>
         IEnumerable<Type> GetHandlersTypes<T>() where T : IDomainEvent;
+
+        /// <summary>
+        /// Returns an enumeration of <see cref="Type"/> that are able to handle an event of the given input <see cref="domainEventType"/>.
+        /// </summary>
+        /// <param name="domainEventType">The domain event type. Must inherit <see cref="IDomainEvent"/>.</param>
+        /// <returns>>An enumeration of <see cref="Type"/> that are able to handle an event of the given input <see cref="Type"/>.</returns>
+        IEnumerable<Type> GetHandlersTypes(Type domainEventType);
     }
 }

@@ -37,11 +37,24 @@ namespace Application.Providers
         /// <returns>An enumeration of <see cref="Type"/> that are able to handle an event of the given input <see cref="Type"/>.</returns>
         public IEnumerable<Type> GetHandlersTypes<T>() where T : IDomainEvent
         {
-            var eventType = typeof(T);
+            return this.GetHandlersTypes(typeof(T));
+        }
 
-            if (this.handlersByHandledType.ContainsKey(eventType))
+        public IEnumerable<Type> GetHandlersTypes(Type domainEventType)
+        {
+            if (domainEventType == null)
             {
-                return this.handlersByHandledType[eventType];
+                throw new ArgumentNullException(nameof(domainEventType));
+            }
+
+            if (!domainEventType.GetInterfaces().Contains(typeof(IDomainEvent)))
+            {
+                throw new ArgumentException(nameof(domainEventType), $"The parameter must be of type {typeof(IDomainEvent).FullName}");
+            }
+
+            if (this.handlersByHandledType.ContainsKey(domainEventType))
+            {
+                return this.handlersByHandledType[domainEventType];
             }
 
             return null;

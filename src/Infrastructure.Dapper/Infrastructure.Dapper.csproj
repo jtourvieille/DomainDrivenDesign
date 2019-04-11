@@ -10,7 +10,7 @@
     <PackageTags>Domain DDD Design Pico ValueObject Value Entity Aggregate AggregateRoot CQRS Event dapper repository</PackageTags>
     <Description>Contains Dapper specific implementation for infrastructure layer</Description>
     <PackageId>Essentials.Infrastructure.Dapper</PackageId>
-    <Version>1.3.0</Version>
+    <Version>1.3.1</Version>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
